@@ -151,7 +151,7 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, Application $application)
     {
-        
+
         $this->validate(
             $request,
             [
@@ -222,15 +222,17 @@ class ApplicationController extends Controller
         }
 
         
-        $repeatExps = $request->workExperiances;
-        foreach($repeatExps as  $experiance){
-            $workexperiance = new Workexperiance;
-            $workexperiance->application_id = $applicaton->id;
-            $workexperiance->company = $experiance['company'];
-            $workexperiance->designation =  $experiance['designation'];
-            $workexperiance->from =  date('Y-m-d',strtotime($experiance['from_date']));
-            $workexperiance->to =  date('Y-m-d',strtotime($experiance['to_date']));
-            $workexperiance->save();
+        if($request->workExperiances){
+            $repeatExps = $request->workExperiances;
+            foreach($repeatExps as  $experiance){
+                $workexperiance = new Workexperiance;
+                $workexperiance->application_id = $applicaton->id;
+                $workexperiance->company = $experiance['company'];
+                $workexperiance->designation =  $experiance['designation'];
+                $workexperiance->from =  date('Y-m-d',strtotime($experiance['from_date']));
+                $workexperiance->to =  date('Y-m-d',strtotime($experiance['to_date']));
+                $workexperiance->save();
+            }
         }
         return redirect()->route('home')->with('success', 'Application Updated Successfully.');
     }
